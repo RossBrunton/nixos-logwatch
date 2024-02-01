@@ -43,6 +43,9 @@ pkgs.stdenvNoCC.mkDerivation {
 
       # Null log necessary to be able to use journalctl
       echo -e "LogFile = logwatch-null.log" > $out/etc/logwatch/conf/logfiles/logwatch-null.conf
+
+      # Set mailer correctly
+      echo -e "mailer = \"${pkgs.postfix}/bin/sendmail -t\"" >> $out/etc/logwatch/conf/logwatch.conf
     '' + (lib.concatMapStrings mkJournalCtlEntry journalCtlEntries);
 
     postFixup = ''
